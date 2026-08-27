@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #0b0b0b;
+            background-color: #111;
             color: #333;
             overflow-x: hidden;
             display: flex;
@@ -22,65 +22,55 @@
             min-height: 100vh;
         }
 
-        /* شاشەی دەرگای ئاهەنگ */
+        /* شاشەی دەرگای گوڵاو */
         #gate-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1200') no-repeat center center/cover;
+            background: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
             overflow: hidden;
-            transition: opacity 0.8s ease;
+            transition: opacity 1s ease;
         }
 
-        .gate-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* دەرگا دوو لەتبووەکە */
         .gate-container {
             position: relative;
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             height: 100vh;
             display: flex;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000') no-repeat center center/cover;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
+        /* بەشەکانی دەرگا (ڕاست و چەپ) کە وێنەی دەرگا گوڵاوەکەی لەسەرە */
         .door {
             width: 50%;
             height: 100%;
-            background: linear-gradient(135deg, #2b2318 0%, #1a150e 100%);
-            border: 4px solid #d4af37;
+            background-image: url('-4703490264705527271_first_frame.jpg'); /* لێرەدا دەتوانیت لینکی وێنەی دەرگاکە دابنێیت */
+            background-size: 200% 100%;
             position: relative;
-            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
-            background-image: repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0, rgba(212, 175, 55, 0.05) 10px, transparent 0, transparent 20px);
+            transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+            cursor: pointer;
         }
 
+        /* بۆ ئەوەی وێنەکە بە تەواوی لەسەر هەردوو لەتەکە دابەش ببێت ئەگەر ڤیدیۆ یان وێنە بەکاربێنیت */
         .door.left {
+            background-position: left;
             transform-origin: left;
-            border-left: none;
         }
 
         .door.right {
+            background-position: right;
             transform-origin: right;
-            border-right: none;
         }
 
-        /* کاتێک دەرگا دەکرێتەوە */
+        /* کاتێک دەرگاکە دەکرێتەوە */
         .gate-container.open .door.left {
             transform: perspective(1200px) rotateY(-110deg);
         }
@@ -89,51 +79,39 @@
             transform: perspective(1200px) rotateY(110deg);
         }
 
-        /* دەسکی دەرگا و ناونیشان لەسەر دەرگا */
-        .door-content {
+        /* دوگمە و دەقی سەر دەرگا */
+        .door-prompt {
             position: absolute;
-            top: 50%;
+            bottom: 40px;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 25px;
+            border-radius: 30px;
             text-align: center;
             z-index: 10;
-            width: 80%;
-            background: rgba(20, 16, 11, 0.85);
-            padding: 25px 15px;
             border: 2px solid #d4af37;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: 0.3s;
+            width: 85%;
+            max-width: 350px;
         }
 
-        .door-content:hover {
-            background: rgba(30, 24, 16, 0.95);
+        .door-prompt:hover {
+            background: #fff;
         }
 
-        .door-content h2 {
-            color: #fff;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+        .door-prompt h3 {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
 
-        .door-content p {
+        .door-prompt p {
             color: #d4af37;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .open-btn {
-            background: linear-gradient(135deg, #d4af37, #aa8228);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         /* ناوەڕۆکی بانگێشتنامە (دوای کردنەوەی دەرگا) */
@@ -157,9 +135,9 @@
 
         .header-img {
             width: 100%;
-            height: 240px;
+            height: 260px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 15px;
             border: 1px solid #f0e6d2;
         }
@@ -227,23 +205,26 @@
 </head>
 <body>
 
+    <!-- دەرگای گوڵاوی ئاهەنگ -->
     <div id="gate-screen">
-        <div class="gate-overlay">
-            <div class="gate-container" id="gateContainer">
-                <div class="door left"></div>
-                <div class="door right"></div>
-                
-                <div class="door-content" onclick="openGate()">
-                    <h2>بانگێشتنامەی هاوسەرگیری</h2>
-                    <p>فەرزاد & رەیان</p>
-                    <button class="open-btn">بۆ کردنەوە کلیک بکە</button>
-                </div>
+        <div class="gate-container" id="gateContainer">
+            <!-- لێتی چەپی دەرگا -->
+            <div class="door left" onclick="openGate()"></div>
+            <!-- لێتی ڕاستی دەرگا -->
+            <div class="door right" onclick="openGate()"></div>
+            
+            <!-- دوگمەی کردنەوە لە خوارەوەی دەرگاکە -->
+            <div class="door-prompt" onclick="openGate()">
+                <h3>بانگێشتنامەی هاوسەرگیری</h3>
+                <p>بۆ کردنەوە کلیک لێرە بکە</p>
             </div>
         </div>
     </div>
 
+    <!-- ناوەڕۆکی سەرەکی بانگێشتنامە -->
     <div id="main-invitation">
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Wedding" class="header-img">
+        <!-- وێنەی کۆشک و بووک و زاوا کە لە کۆتایی ڤیدیۆکەدایە -->
+        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000" alt="Wedding Palace" class="header-img">
         
         <h1>بانگێشتنامە</h1>
         <div class="names">فەرزاد و رەیان</div>
@@ -277,17 +258,17 @@
             const gateScreen = document.getElementById('gate-screen');
             const mainInvitation = document.getElementById('main-invitation');
 
-            // جووڵەی کردنەوەی دەرگاکە
+            // دەستپێکردنی جووڵەی کردنەوەی دەرگاکە
             gateContainer.classList.add('open');
 
-            // دوای تەواوبوونی جووڵەی دەرگاکە، شاشەی دەرگاکە دەشاردرێتەوە و بانگێشتنامەکە دەردەکەوێت
+            // شاردنەوەی دەرگا و نیشاندانی ناوەڕۆکی بانگێشتنامە دوای تەواوبوونی جووڵەکە
             setTimeout(() => {
                 gateScreen.style.opacity = '0';
                 setTimeout(() => {
                     gateScreen.style.display = 'none';
                     mainInvitation.style.display = 'block';
                 }, 800);
-            }, 1200);
+            }, 1400);
         }
     </script>
 
