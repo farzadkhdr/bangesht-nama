@@ -1,181 +1,509 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگهێشتنامەی هاوسەرگیری - فەرزاد & رەیان</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <title>بانگێشتنامەی هاوسەرگیری - فەرزاد و ڕەیان</title>
     <style>
-        body {
-            font-family: 'Reem Kufi', sans-serif;
-            background-color: #111;
-            color: #2c2c2c;
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Kurdish:wght@400;700;900&family=Playfair+Display:wght@400;700&display=swap');
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Kurdish', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow-x: hidden;
         }
-        .gold-text {
-            color: #d4af37;
+
+        /* ============ WEDDING GATE INTRO ============ */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 1.5s ease;
         }
-        .gold-border {
-            border-color: #d4af37;
-        }
-        /* کاریگەری کردنەوەی دەرگا و دیارنەمانی ئینترۆکە */
-        #intro-screen {
-            transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        .hide-intro {
-            transform: scale(1.3);
+
+        #intro-overlay.hidden {
             opacity: 0;
             pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        .gate-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin-bottom: 30px;
+        }
+
+        .gate {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            transition: all 2s ease;
+        }
+
+        .gate-left {
+            left: 0;
+            background: linear-gradient(135deg, #c9a84c, #e8d5a3, #c9a84c);
+            clip-path: polygon(0 0, 100% 10%, 85% 100%, 0 100%);
+            box-shadow: 5px 0 20px rgba(201, 168, 76, 0.3);
+        }
+
+        .gate-right {
+            right: 0;
+            background: linear-gradient(225deg, #c9a84c, #e8d5a3, #c9a84c);
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 90%);
+            box-shadow: -5px 0 20px rgba(201, 168, 76, 0.3);
+        }
+
+        .gate-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #e8d5a3;
+            font-size: 4rem;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        #intro-overlay.opening .gate-left {
+            transform: translateX(-150%) rotateY(45deg);
+            opacity: 0;
+        }
+
+        #intro-overlay.opening .gate-right {
+            transform: translateX(150%) rotateY(-45deg);
+            opacity: 0;
+        }
+
+        .intro-text {
+            color: #e8d5a3;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-top: 20px;
+            animation: slideUp 2s ease;
+        }
+
+        .intro-subtext {
+            color: #a8a8c0;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 10px;
+            animation: fadeIn 3s ease;
+        }
+
+        /* ============ WEDDING INVITATION ============ */
+        .invitation {
+            background: linear-gradient(160deg, #ffffff 0%, #faf8f5 40%, #f5f0e8 100%);
+            max-width: 600px;
+            width: 90%;
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin: 40px auto;
+            animation: invitationAppear 2s ease;
+        }
+
+        .invitation::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #c9a84c;
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .invitation-header {
+            margin-bottom: 30px;
+        }
+
+        .bismillah {
+            color: #c9a84c;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .flower-icon {
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .names {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #1a1a3e;
+            line-height: 1.3;
+            margin: 30px 0;
+        }
+
+        .names .and {
+            color: #c9a84c;
+            font-size: 2.5rem;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .names .frezad {
+            color: #1a1a3e;
+            text-shadow: 2px 2px 4px rgba(201, 168, 76, 0.3);
+        }
+
+        .names .rayan {
+            color: #1a1a3e;
+            text-shadow: 2px 2px 4px rgba(201, 168, 76, 0.3);
+        }
+
+        .invitation-text {
+            color: #333;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .date-time {
+            background: linear-gradient(135deg, #faf8f5, #f5f0e8);
+            border: 2px solid #c9a84c;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .date-time-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #1a1a3e;
+        }
+
+        .date-time-icon {
+            margin-left: 10px;
+            color: #c9a84c;
+            font-size: 1.5rem;
+        }
+
+        .location {
+            background: linear-gradient(135deg, #1a1a3e, #16213e);
+            color: #e8d5a3;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #a8a8c0;
+            font-size: 1rem;
+        }
+
+        /* ============ DECORATIONS ============ */
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #c9a84c;
+            border-radius: 50%;
+        }
+
+        .corner-decoration.top-left {
+            top: -20px;
+            left: -20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.top-right {
+            top: -20px;
+            right: -20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: -20px;
+            left: -20px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes invitationAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, #c9a84c 0%, #e8d5a3 25%, #c9a84c 50%, #e8d5a3 75%, #c9a84c 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .invitation {
+                padding: 30px 20px;
+                margin: 20px auto;
+            }
+
+            .names {
+                font-size: 2.5rem;
+            }
+
+            .names .and {
+                font-size: 1.8rem;
+            }
+
+            .bismillah {
+                font-size: 2rem;
+            }
+
+            .invitation-text {
+                font-size: 1.1rem;
+            }
+
+            .gate-container {
+                width: 200px;
+                height: 150px;
+            }
+
+            .gate-center {
+                font-size: 3rem;
+            }
+
+            .intro-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .names {
+                font-size: 2rem;
+            }
+
+            .names .and {
+                font-size: 1.5rem;
+            }
+
+            .bismillah {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="flex justify-center items-center min-h-screen">
+<body>
 
-    <!-- پەردە و دەرگای پێشەوە (Intro) هاوشێوەی ڕیپۆستەرەکە -->
-    <div id="intro-screen" class="fixed inset-0 z-50 flex flex-col justify-between items-center text-center p-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800');">
-        
-        <div class="mt-10">
-            <span class="text-xs uppercase tracking-widest text-amber-300 bg-black/40 px-4 py-1.5 rounded-full border border-amber-500/30 backdrop-blur-md">WEDDING INVITATION</span>
+    <!-- WEDDING GATE INTRO -->
+    <div id="intro-overlay" onclick="openGate()">
+        <div class="gate-container">
+            <div class="gate gate-left"></div>
+            <div class="gate gate-right"></div>
+            <div class="gate-center">💒</div>
         </div>
-
-        <div class="space-y-4 max-w-sm">
-            <h1 class="text-4xl font-bold text-white drop-shadow-md">فەرزاد و رەیان</h1>
-            <p class="text-sm text-amber-100">بۆ کردنەوەی کلیک بکە</p>
-            
-            <!-- دوگمەی کردنەوەی بانگهێشتنامە -->
-            <button onclick="openInvitation()" class="mt-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-8 py-3.5 rounded-full font-bold shadow-xl hover:scale-105 transition transform text-sm border border-amber-300">
-                ✨ کردنەوەی بانگهێشتنامە
-            </button>
-        </div>
-
-        <div class="mb-8 text-xs text-amber-200/80 tracking-wide">
-            <span>چیرۆکێکی خۆشەویست دەست پێدەکات</span>
+        <div class="intro-text">هاوسەرگیری</div>
+        <div class="intro-subtext">فەرزاد و ڕەیان</div>
+        <div style="margin-top: 20px; color: #c9a84c; font-size: 1.2rem; animation: pulse 2s infinite;">
+            کلیک بکە بۆ کردنەوەی دەروازەکە
         </div>
     </div>
 
-    <!-- ناوەڕۆکی سەرەکی بانگهێشتنامە -->
-    <div class="w-full max-w-md bg-white shadow-2xl overflow-hidden relative border border-amber-100 min-h-screen">
-        
-        <!-- سەرپەڕی وێنە -->
-        <div class="relative h-[420px] w-full">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800" alt="Wedding Arch" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/40 flex flex-col justify-between p-6 text-center text-white">
-                <div class="mt-4">
-                    <span class="text-xs uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">WEDDING INVITATION</span>
-                </div>
-                <div class="mb-8">
-                    <h1 class="text-3xl font-bold mb-2 drop-shadow-md">فەرزاد و رەیان</h1>
-                    <p class="text-sm opacity-90">چیرۆکێکی خۆشەویست دەست پێدەکات</p>
-                </div>
+    <!-- WEDDING INVITATION -->
+    <div class="invitation">
+        <!-- Decorative corners -->
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+
+        <!-- Header -->
+        <div class="invitation-header">
+            <div class="flower-icon">🌸</div>
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="flower-icon">🌹</div>
+        </div>
+
+        <!-- Names -->
+        <div class="names">
+            <span class="frezad">فەرزاد</span>
+            <span class="and shimmer">&</span>
+            <span class="rayan">ڕەیان</span>
+        </div>
+
+        <!-- Invitation text -->
+        <div class="invitation-text">
+            <p>بە خۆشی و شادییەوە</p>
+            <p>بانگێشتنتان دەکەین بۆ ئاهەنگی هاوسەرگیری</p>
+            <p>لەگەڵ ئامادەبوونتاندا شەرەمەندمان دەکەن</p>
+        </div>
+
+        <!-- Date and Time -->
+        <div class="date-time">
+            <div class="date-time-item">
+                <span class="date-time-icon">📅</span>
+                <span>ڕۆژی: هەینی</span>
+            </div>
+            <div class="date-time-item">
+                <span class="date-time-icon">🗓️</span>
+                <span>بەروار: ١٥ی تشرینی دووەمی ٢٠٢٤</span>
+            </div>
+            <div class="date-time-item">
+                <span class="date-time-icon">🕕</span>
+                <span>کاتژمێر: ٦:٠٠ ی ئێوارە</span>
             </div>
         </div>
 
-        <!-- ئایەتی پیرۆز -->
-        <div class="p-6 text-center bg-amber-50/50 border-y border-amber-100">
-            <p class="text-xs gold-text mb-2">بە خوای گەورە و میهرەبان</p>
-            <p class="text-xs italic text-gray-700 leading-relaxed font-semibold">
-                «رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا»
+        <!-- Location -->
+        <div class="location">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📍</div>
+            <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px;">شوێنی ئاهەنگەکە</div>
+            <div>هۆڵی شاهانە</div>
+            <div>شاری هەولێر، عێراق</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>🌸 چاوەڕوانی ئامادەبوونتانین 🌸</p>
+            <p style="margin-top: 15px; font-size: 0.9rem;">
+                بە هیوای بەختی سپی و ژیانێکی پڕ لە خۆشی
             </p>
         </div>
-
-        <!-- دەق و زانیاری بانگهێشتنامە -->
-        <div class="p-6 text-center space-y-4">
-            <h2 class="text-md font-bold gold-text border-b-2 gold-border pb-1 inline-block">بانگهێشتنامە</h2>
-            <p class="text-xs text-gray-600 leading-relaxed">
-                بە دلێکی پر لە خۆشی و شادییەوە، سەرفرازمەندین بە بانگهێشتکردنتان بۆ بەشداریکردن لە جوانترین ساتەکانی ژیانمان لە ئاهەنگی هاوسەرگیرمان.
-            </p>
-
-            <!-- خێزانەکان -->
-            <div class="grid grid-cols-2 gap-3 pt-2 text-[11px] text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                <div>
-                    <span class="font-bold block gold-text mb-1">دایک و باوکی زاوا:</span>
-                    <span>خێزانی بەڕێز فەرزاد</span>
-                </div>
-                <div>
-                    <span class="font-bold block gold-text mb-1">دایک و باوکی بووک:</span>
-                    <span>خێزانی بەڕێز رەیان</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- کاتی ماوە بۆ دەستپێکردن (Countdown) -->
-        <div class="px-6 py-4 bg-amber-50/20 text-center">
-            <h3 class="text-xs font-bold gold-text mb-3">کاتی ماوە بۆ دەستپێکردن</h3>
-            <div class="grid grid-cols-4 gap-2 text-center">
-                <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span class="block font-bold text-base gold-text">89</span>
-                    <span class="text-[10px] text-gray-500">رۆژ</span>
-                </div>
-                <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span class="block font-bold text-base gold-text">12</span>
-                    <span class="text-[10px] text-gray-500">کاتژمێر</span>
-                </div>
-                <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span class="block font-bold text-base gold-text">07</span>
-                    <span class="text-[10px] text-gray-500">خولەک</span>
-                </div>
-                <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span class="block font-bold text-base gold-text">45</span>
-                    <span class="text-[10px] text-gray-500">چرکە</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- بەرنامەی ئاهەنگ -->
-        <div class="p-6 space-y-3">
-            <h3 class="text-xs font-bold gold-text text-center border-b border-amber-100 pb-1">بەرنامەی ئاهەنگ</h3>
-            <ul class="text-xs space-y-2 text-gray-600">
-                <li class="flex justify-between items-center bg-gray-50 p-2.5 rounded">
-                    <span>پێشوازیکردن لە میوانەکان</span>
-                    <span class="font-bold gold-text">07:00 ئێوارە</span>
-                </li>
-                <li class="flex justify-between items-center bg-gray-50 p-2.5 rounded">
-                    <span>نانی ئێوارە</span>
-                    <span class="font-bold gold-text">08:30 ئێوارە</span>
-                </li>
-                <li class="flex justify-between items-center bg-gray-50 p-2.5 rounded">
-                    <span>کاتی ئاهەنگگێڕان</span>
-                    <span class="font-bold gold-text">10:30 ئێوارە</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- شوێن و ناونیشان -->
-        <div class="p-6 bg-gray-50 text-center space-y-2 border-t border-gray-100">
-            <h3 class="text-xs font-bold gold-text">ناونیشان</h3>
-            <p class="text-xs font-bold text-gray-800">هۆڵی شازادە - هەولێر</p>
-            <button class="mt-2 w-full bg-white gold-border border text-xs py-2 rounded font-bold gold-text hover:bg-amber-50 transition shadow-sm">
-                📍 نەخشە
-            </button>
-        </div>
-
-        <!-- تێبینییەکان -->
-        <div class="p-6 text-[11px] text-gray-600 space-y-1.5 border-t border-gray-100">
-            <h3 class="font-bold gold-text text-center mb-2 text-xs">تێبینییەکان</h3>
-            <p>• تکایە نیو کاتژمێر پێش کاتی دیاریکراو ئامادەبن.</p>
-            <p>• سەرفەرموون بە ئامادەبووناتان بە جوانترین پۆشاکەوە.</p>
-            <p>• منداڵەکانتان گۆڵی ماڵەوەن (تکایە بەبێ منداڵ).</p>
-        </div>
-
-        <!-- کۆتایی و هەشتاگ -->
-        <div class="p-4 text-center bg-amber-50 text-[11px] text-gray-500 border-t border-amber-100">
-            ئامادەبووناتان خۆشحاڵمان دەکات و دەرفەتی ئاهەنگەکەمان تەواو دەکات.<br>
-            <span class="font-bold gold-text mt-1 block">#فەرزاد_رەیان</span>
-        </div>
-
     </div>
 
-    <!-- JavaScript بۆ لادانی پەردەی پێشەوە کاتێک کلیک دەکرێت -->
     <script>
-        function openInvitation() {
-            const intro = document.getElementById('intro-screen');
-            intro.classList.add('hide-intro');
+        function openGate() {
+            const overlay = document.getElementById('intro-overlay');
+            overlay.classList.add('opening');
+            
+            // Play gate opening animation
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                
+                // Remove overlay after animation
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1500);
+            }, 2000);
         }
+
+        // Optional: Auto-open after 5 seconds
+        setTimeout(() => {
+            const overlay = document.getElementById('intro-overlay');
+            if (overlay.style.display !== 'none') {
+                openGate();
+            }
+        }, 5000);
+
+        // Add floating hearts animation
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '-20px';
+            heart.style.pointerEvents = 'none';
+            heart.style.animation = `float ${Math.random() * 5 + 3}s linear forwards`;
+            heart.style.zIndex = '999';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Create floating hearts periodically
+        setInterval(createFloatingHeart, 2000);
+
+        // Add float animation for hearts
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                from {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(-100vh);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 
 </body>
