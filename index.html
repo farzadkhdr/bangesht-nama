@@ -9,23 +9,50 @@
     <style>
         body {
             font-family: 'Reem Kufi', sans-serif;
-            background-color: #121212;
+            background-color: #1a1a1a;
             color: #2c2c2c;
+            overflow-x: hidden;
         }
         .gold-text {
             color: #c5a059;
         }
-        .gold-bg {
-            background-color: #c5a059;
-        }
         .gold-border {
             border-color: #c5a059;
+        }
+        /* کاریگەری کردنەوەی دەرگا / پەردە */
+        #intro-overlay {
+            transition: transform 1.5s ease-in-out, opacity 1s ease-in-out;
+        }
+        .open-doors {
+            transform: scale(1.2);
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen p-0 m-0">
 
-    <div class="w-full max-w-md bg-white shadow-2xl overflow-hidden relative border border-amber-100">
+    <div id="intro-overlay" class="fixed inset-0 z-50 bg-black flex flex-col justify-between items-center text-center p-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800');">
+        
+        <div class="mt-12">
+            <span class="text-xs uppercase tracking-widest text-amber-200 bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-amber-300/30">WEDDING INVITATION</span>
+        </div>
+
+        <div class="space-y-4 max-w-sm">
+            <h1 class="text-3xl font-bold text-white drop-shadow-lg">فەرزاد و رەیان</h1>
+            <p class="text-xs text-amber-100/90">بۆ کردنەوەی بانگهێشتنامە کلیک بکە</p>
+            
+            <button onclick="openInvitation()" class="mt-4 bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition transform text-sm border border-amber-300">
+                کردنەوەی بانگهێشتنامە ✨
+            </button>
+        </div>
+
+        <div class="mb-8 text-[11px] text-amber-200/60">
+            <span>چیرۆکێکی خۆشەویست دەست پێدەکات</span>
+        </div>
+    </div>
+
+    <div class="w-full max-w-md bg-white shadow-2xl overflow-hidden relative border border-amber-100 min-h-screen">
         
         <div class="relative h-[420px] w-full">
             <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800" alt="Wedding Arch" class="w-full h-full object-cover">
@@ -69,19 +96,19 @@
             <h3 class="text-xs font-bold gold-text mb-3">کاتی ماوە بۆ دەستپێکردن</h3>
             <div class="grid grid-cols-4 gap-2 text-center">
                 <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span id="days" class="block font-bold text-base gold-text">89</span>
+                    <span class="block font-bold text-base gold-text">89</span>
                     <span class="text-[10px] text-gray-500">رۆژ</span>
                 </div>
                 <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span id="hours" class="block font-bold text-base gold-text">12</span>
+                    <span class="block font-bold text-base gold-text">12</span>
                     <span class="text-[10px] text-gray-500">کاتژمێر</span>
                 </div>
                 <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span id="minutes" class="block font-bold text-base gold-text">07</span>
+                    <span class="block font-bold text-base gold-text">07</span>
                     <span class="text-[10px] text-gray-500">خولەک</span>
                 </div>
                 <div class="bg-white p-2 rounded shadow-sm border border-amber-100">
-                    <span id="seconds" class="block font-bold text-base gold-text">45</span>
+                    <span class="block font-bold text-base gold-text">45</span>
                     <span class="text-[10px] text-gray-500">چرکە</span>
                 </div>
             </div>
@@ -126,6 +153,13 @@
         </div>
 
     </div>
+
+    <script>
+        function openInvitation() {
+            const overlay = document.getElementById('intro-overlay');
+            overlay.classList.add('open-doors');
+        }
+    </script>
 
 </body>
 </html>
