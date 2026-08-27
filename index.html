@@ -4,56 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بانگهێشتنامەی هاوسەرگیری - فەرزاد & رەیان</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Reem Kufi', sans-serif;
-            background-color: #1a1a1a;
+            background-color: #111;
             color: #2c2c2c;
+            margin: 0;
+            padding: 0;
             overflow-x: hidden;
         }
         .gold-text {
-            color: #c5a059;
+            color: #d4af37;
         }
         .gold-border {
-            border-color: #c5a059;
+            border-color: #d4af37;
         }
-        /* کاریگەری کردنەوەی دەرگا / پەردە */
-        #intro-overlay {
-            transition: transform 1.5s ease-in-out, opacity 1s ease-in-out;
+        /* کاریگەری کردنەوەی دەرگا و دیارنەمانی ئینترۆکە */
+        #intro-screen {
+            transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1);
         }
-        .open-doors {
-            transform: scale(1.2);
+        .hide-intro {
+            transform: scale(1.3);
             opacity: 0;
             pointer-events: none;
         }
     </style>
 </head>
-<body class="flex justify-center items-center min-h-screen p-0 m-0">
+<body class="flex justify-center items-center min-h-screen">
 
-    <div id="intro-overlay" class="fixed inset-0 z-50 bg-black flex flex-col justify-between items-center text-center p-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800');">
+    <!-- پەردە و دەرگای پێشەوە (Intro) هاوشێوەی ڕیپۆستەرەکە -->
+    <div id="intro-screen" class="fixed inset-0 z-50 flex flex-col justify-between items-center text-center p-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800');">
         
-        <div class="mt-12">
-            <span class="text-xs uppercase tracking-widest text-amber-200 bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-amber-300/30">WEDDING INVITATION</span>
+        <div class="mt-10">
+            <span class="text-xs uppercase tracking-widest text-amber-300 bg-black/40 px-4 py-1.5 rounded-full border border-amber-500/30 backdrop-blur-md">WEDDING INVITATION</span>
         </div>
 
         <div class="space-y-4 max-w-sm">
-            <h1 class="text-3xl font-bold text-white drop-shadow-lg">فەرزاد و رەیان</h1>
-            <p class="text-xs text-amber-100/90">بۆ کردنەوەی بانگهێشتنامە کلیک بکە</p>
+            <h1 class="text-4xl font-bold text-white drop-shadow-md">فەرزاد و رەیان</h1>
+            <p class="text-sm text-amber-100">بۆ کردنەوەی کلیک بکە</p>
             
-            <button onclick="openInvitation()" class="mt-4 bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition transform text-sm border border-amber-300">
-                کردنەوەی بانگهێشتنامە ✨
+            <!-- دوگمەی کردنەوەی بانگهێشتنامە -->
+            <button onclick="openInvitation()" class="mt-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-8 py-3.5 rounded-full font-bold shadow-xl hover:scale-105 transition transform text-sm border border-amber-300">
+                ✨ کردنەوەی بانگهێشتنامە
             </button>
         </div>
 
-        <div class="mb-8 text-[11px] text-amber-200/60">
+        <div class="mb-8 text-xs text-amber-200/80 tracking-wide">
             <span>چیرۆکێکی خۆشەویست دەست پێدەکات</span>
         </div>
     </div>
 
+    <!-- ناوەڕۆکی سەرەکی بانگهێشتنامە -->
     <div class="w-full max-w-md bg-white shadow-2xl overflow-hidden relative border border-amber-100 min-h-screen">
         
+        <!-- سەرپەڕی وێنە -->
         <div class="relative h-[420px] w-full">
             <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800" alt="Wedding Arch" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/40 flex flex-col justify-between p-6 text-center text-white">
@@ -67,6 +75,7 @@
             </div>
         </div>
 
+        <!-- ئایەتی پیرۆز -->
         <div class="p-6 text-center bg-amber-50/50 border-y border-amber-100">
             <p class="text-xs gold-text mb-2">بە خوای گەورە و میهرەبان</p>
             <p class="text-xs italic text-gray-700 leading-relaxed font-semibold">
@@ -74,12 +83,14 @@
             </p>
         </div>
 
+        <!-- دەق و زانیاری بانگهێشتنامە -->
         <div class="p-6 text-center space-y-4">
             <h2 class="text-md font-bold gold-text border-b-2 gold-border pb-1 inline-block">بانگهێشتنامە</h2>
             <p class="text-xs text-gray-600 leading-relaxed">
                 بە دلێکی پر لە خۆشی و شادییەوە، سەرفرازمەندین بە بانگهێشتکردنتان بۆ بەشداریکردن لە جوانترین ساتەکانی ژیانمان لە ئاهەنگی هاوسەرگیرمان.
             </p>
 
+            <!-- خێزانەکان -->
             <div class="grid grid-cols-2 gap-3 pt-2 text-[11px] text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100">
                 <div>
                     <span class="font-bold block gold-text mb-1">دایک و باوکی زاوا:</span>
@@ -92,6 +103,7 @@
             </div>
         </div>
 
+        <!-- کاتی ماوە بۆ دەستپێکردن (Countdown) -->
         <div class="px-6 py-4 bg-amber-50/20 text-center">
             <h3 class="text-xs font-bold gold-text mb-3">کاتی ماوە بۆ دەستپێکردن</h3>
             <div class="grid grid-cols-4 gap-2 text-center">
@@ -114,6 +126,7 @@
             </div>
         </div>
 
+        <!-- بەرنامەی ئاهەنگ -->
         <div class="p-6 space-y-3">
             <h3 class="text-xs font-bold gold-text text-center border-b border-amber-100 pb-1">بەرنامەی ئاهەنگ</h3>
             <ul class="text-xs space-y-2 text-gray-600">
@@ -132,6 +145,7 @@
             </ul>
         </div>
 
+        <!-- شوێن و ناونیشان -->
         <div class="p-6 bg-gray-50 text-center space-y-2 border-t border-gray-100">
             <h3 class="text-xs font-bold gold-text">ناونیشان</h3>
             <p class="text-xs font-bold text-gray-800">هۆڵی شازادە - هەولێر</p>
@@ -140,6 +154,7 @@
             </button>
         </div>
 
+        <!-- تێبینییەکان -->
         <div class="p-6 text-[11px] text-gray-600 space-y-1.5 border-t border-gray-100">
             <h3 class="font-bold gold-text text-center mb-2 text-xs">تێبینییەکان</h3>
             <p>• تکایە نیو کاتژمێر پێش کاتی دیاریکراو ئامادەبن.</p>
@@ -147,6 +162,7 @@
             <p>• منداڵەکانتان گۆڵی ماڵەوەن (تکایە بەبێ منداڵ).</p>
         </div>
 
+        <!-- کۆتایی و هەشتاگ -->
         <div class="p-4 text-center bg-amber-50 text-[11px] text-gray-500 border-t border-amber-100">
             ئامادەبووناتان خۆشحاڵمان دەکات و دەرفەتی ئاهەنگەکەمان تەواو دەکات.<br>
             <span class="font-bold gold-text mt-1 block">#فەرزاد_رەیان</span>
@@ -154,10 +170,11 @@
 
     </div>
 
+    <!-- JavaScript بۆ لادانی پەردەی پێشەوە کاتێک کلیک دەکرێت -->
     <script>
         function openInvitation() {
-            const overlay = document.getElementById('intro-overlay');
-            overlay.classList.add('open-doors');
+            const intro = document.getElementById('intro-screen');
+            intro.classList.add('hide-intro');
         }
     </script>
 
