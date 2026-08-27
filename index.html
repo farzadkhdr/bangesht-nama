@@ -175,7 +175,7 @@
 
     <div id="gate-screen">
         <div class="video-container">
-            <video id="weddingVideo" autoplay muted playsinline onclick="openInvitation()">
+            <video id="weddingVideo" autoplay muted playsinline onended="openInvitation()" onclick="openInvitation()">
                 <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/From%20Klickpin.com-%20Red%20Lip%20Makeup%20Looks%2048%20Ideas%20to%20Copy-pin-id-1111826226790236382.mov" type="video/mp4">
                 ڤیدیۆکە پشتگیری ناکرێت لە وێبگەڕەکەتدا.
             </video>
@@ -191,6 +191,12 @@
         <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000" alt="Wedding Palace" class="header-img">
         
         <h1>بانگێشتنامە</h1>
+        .names {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
         <div class="names">فەرزاد و رەیان</div>
 
         <div class="verse">
@@ -220,6 +226,9 @@
         function openInvitation() {
             const gateScreen = document.getElementById('gate-screen');
             const mainInvitation = document.getElementById('main-invitation');
+
+            // دڵنیابوونەوە لەوەی تەنها جارێک کار بکات
+            if (gateScreen.style.display === 'none') return;
 
             gateScreen.style.opacity = '0';
             setTimeout(() => {
