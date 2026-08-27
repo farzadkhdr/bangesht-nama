@@ -34,7 +34,7 @@
             align-items: center;
             z-index: 100;
             overflow: hidden;
-            transition: opacity 1s ease;
+            transition: opacity 0.8s ease;
         }
 
         .video-container {
@@ -51,36 +51,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            cursor: pointer;
-        }
-
-        .door-prompt {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-align: center;
-            z-index: 10;
-            border: 2px solid #d4af37;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            cursor: pointer;
-            width: 85%;
-            max-width: 350px;
-        }
-
-        .door-prompt h3 {
-            color: #333;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .door-prompt p {
-            color: #d4af37;
-            font-size: 0.9rem;
-            font-weight: bold;
         }
 
         #main-invitation {
@@ -92,7 +62,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             padding: 20px;
             text-align: center;
-            animation: fadeIn 1.2s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
             z-index: 50;
         }
 
@@ -175,15 +145,10 @@
 
     <div id="gate-screen">
         <div class="video-container">
-            <video id="weddingVideo" autoplay muted playsinline onended="openInvitation()" onclick="openInvitation()">
+            <video id="weddingVideo" autoplay muted playsinline onended="openInvitation()">
                 <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/From%20Klickpin.com-%20Red%20Lip%20Makeup%20Looks%2048%20Ideas%20to%20Copy-pin-id-1111826226790236382.mov" type="video/mp4">
                 ڤیدیۆکە پشتگیری ناکرێت لە وێبگەڕەکەتدا.
             </video>
-            
-            <div class="door-prompt" onclick="openInvitation()">
-                <h3>بانگێشتنامەی هاوسەرگیری</h3>
-                <p>بۆ کردنەوە کلیک لێرە بکە</p>
-            </div>
         </div>
     </div>
 
@@ -191,12 +156,6 @@
         <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000" alt="Wedding Palace" class="header-img">
         
         <h1>بانگێشتنامە</h1>
-        .names {
-            font-size: 1.5rem;
-            color: #d4af37;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
         <div class="names">فەرزاد و رەیان</div>
 
         <div class="verse">
@@ -227,14 +186,13 @@
             const gateScreen = document.getElementById('gate-screen');
             const mainInvitation = document.getElementById('main-invitation');
 
-            // دڵنیابوونەوە لەوەی تەنها جارێک کار بکات
             if (gateScreen.style.display === 'none') return;
 
             gateScreen.style.opacity = '0';
             setTimeout(() => {
                 gateScreen.style.display = 'none';
                 mainInvitation.style.display = 'block';
-            }, 800);
+            }, 500);
         }
     </script>
 
