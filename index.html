@@ -22,7 +22,6 @@
       overflow-x: hidden;
     }
 
-    /* کانتێنەری سەرەکی مۆبایل */
     .card-container {
       width: 100%;
       max-width: 430px;
@@ -31,15 +30,16 @@
       position: relative;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* بەشی ڤیدیۆکان */
     .video-hero {
       position: relative;
       width: 100%;
       height: 100vh;
       background-color: #000;
       overflow: hidden;
+      transform: translateZ(0); /* خێراکردنی ئامێرەکە */
     }
 
     .bg-video {
@@ -50,14 +50,16 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      visibility: hidden;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity;
     }
 
     .bg-video.active {
       opacity: 1;
+      visibility: visible;
     }
 
-    /* داپۆشەری دەستپێکردن */
     .start-overlay {
       position: absolute;
       top: 0;
@@ -73,7 +75,8 @@
       color: #fff;
       cursor: pointer;
       backdrop-filter: blur(3px);
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
+      will-change: opacity;
     }
 
     .start-btn {
@@ -89,14 +92,14 @@
       margin-top: 15px;
     }
 
-    /* بەشی ناوەڕۆکی کارتەکە */
     .invitation-content {
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 1.2s ease;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
       padding: 30px 20px;
       background: #fff;
       text-align: center;
+      will-change: opacity, transform;
     }
 
     .invitation-content.show {
@@ -152,7 +155,6 @@
       color: #8b6b23;
     }
 
-    /* ڤیدیۆی سێیەم */
     .bottom-video-container {
       margin-top: 25px;
       border-radius: 12px;
@@ -181,11 +183,11 @@
         <button class="start-btn">کرتە بکە بۆ کردنەوە ✉️</button>
       </div>
 
-      <video id="video1" class="bg-video active" playsinline muted>
+      <video id="video1" class="bg-video active" playsinline muted preload="auto">
         <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/From%20Klickpin.com-%20Red%20Lip%20Makeup%20Looks%2048%20Ideas%20to%20Copy-pin-id-1111826226790236382.mov" type="video/mp4">
       </video>
 
-      <video id="video2" class="bg-video" playsinline muted>
+      <video id="video2" class="bg-video" playsinline muted preload="auto">
         <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/copy_3DD499EB-9C9E-45CF-B208-3433316B8713.mov" type="video/mp4">
       </video>
 
@@ -217,7 +219,7 @@
       </div>
 
       <div class="bottom-video-container">
-        <video id="video3" autoplay loop muted playsinline>
+        <video id="video3" loop muted playsinline preload="auto">
           <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/copy_BF880E4B-9740-4728-A91C-55EE3ECB1ABC.mov" type="video/mp4">
         </video>
       </div>
@@ -233,25 +235,37 @@
     const video3 = document.getElementById('video3');
     const invitationContent = document.getElementById('invitationContent');
 
+    // بارکردنی پیشوەختەی ڤیدیۆی دووەم لە پاشبنەمادا
+    window.addEventListener('load', () => {
+      video2.load();
+      video3.load();
+    });
+
     function startExperience() {
       startOverlay.style.opacity = '0';
-      setTimeout(() => startOverlay.style.display = 'none', 500);
+      setTimeout(() => startOverlay.style.display = 'none', 400);
 
       bgMusic.play().catch(err => console.log("Audio play error:", err));
       video1.play();
     }
 
-    video1.onended = function() {
-      video1.classList.remove('active');
-      video2.classList.add('active');
+    // پەڕینەوەی نەرمتر بەرەو ڤیدیۆی دووەم
+    video1.addEventListener('ended', () => {
       video2.play();
-    };
+      video2.classList.add('active');
+      video1.classList.remove('active');
+    });
 
-    video2.onended = function() {
-      invitationContent.classList.add('show');
-      invitationContent.scrollIntoView({ behavior: 'smooth' });
-      video3.play();
-    };
+    // کاتێک ڤیدیۆی دووەم بەرەو کۆتایی دەچێت خۆکارانە دەست بە نیشاندانی دەقەکە دەکات
+    video2.addEventListener('timeupdate', () => {
+      if (video2.duration - video2.currentTime < 0.5) {
+        if (!invitationContent.classList.contains('show')) {
+          invitationContent.classList.add('show');
+          invitationContent.scrollIntoView({ behavior: 'smooth' });
+          video3.play();
+        }
+      }
+    });
   </script>
 
 </body>
