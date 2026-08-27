@@ -33,7 +33,7 @@
       overflow-y: auto;
     }
 
-    /* بەشی ڤیدیۆکان (تێکەڵبوون بۆ سەرەتا) */
+    /* بەشی ڤیدیۆکان */
     .video-hero {
       position: relative;
       width: 100%;
@@ -57,7 +57,7 @@
       opacity: 1;
     }
 
-    /* داپۆشەری دەستپێکردن بۆ ڕێگەدان بە لێدانی دەنگ (Autoplay Policy) */
+    /* داپۆشەری دەستپێکردن */
     .start-overlay {
       position: absolute;
       top: 0;
@@ -152,7 +152,7 @@
       color: #8b6b23;
     }
 
-    /* ڤیدیۆی سێیەم کە لەخوارەوە دیار دەبێت */
+    /* ڤیدیۆی سێیەم */
     .bottom-video-container {
       margin-top: 25px;
       border-radius: 12px;
@@ -195,9 +195,9 @@
       <h3 class="header-title">بۆنەی هاوسەرگیری</h3>
       
       <div class="names">
-        ئارام
+        فەرزاد
         <span>&</span>
-        شنیار
+        رەیان
       </div>
 
       <div class="poem-box">
@@ -231,33 +231,22 @@
     const invitationContent = document.getElementById('invitationContent');
 
     function startExperience() {
-      // 1. شاردنەوەی سەرپۆشی دەستپێکردن
       startOverlay.style.opacity = '0';
       setTimeout(() => startOverlay.style.display = 'none', 500);
 
-      // 2. لێدانی دەنگ
       bgMusic.play().catch(err => console.log("Audio play error:", err));
-
-      // 3. دەستپێکردنی ڤیدیۆی یەکەم
       video1.play();
     }
 
-    // کاتێک ڤیدیۆی یەکەم (دەرگا) تەواو دەبێت
     video1.onended = function() {
       video1.classList.remove('active');
       video2.classList.add('active');
       video2.play();
     };
 
-    // کاتێک ڤیدیۆی دووەم (ناو هۆڵەکە) تەواو دەبێت
     video2.onended = function() {
-      // هێنانە خوارەوەی لاپەڕەکە و نیشاندانی دەقەکە
       invitationContent.classList.add('show');
-      
-      // سکڕۆڵکردن بەرەو ناوەڕۆکی بانگێشتنامەکە بە نەرمی
       invitationContent.scrollIntoView({ behavior: 'smooth' });
-
-      // کارپێکردنی ڤیدیۆی کۆتایی
       video3.play();
     };
   </script>
