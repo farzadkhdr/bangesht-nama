@@ -3,279 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشتنامەی هاوسەرگیری - فەرزاد و ڕەیان</title>
+    <title>بانگێشتنامەی هاوسەرگیری - فەرزاد و رەیان</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Kurdish:wght@400;700;900&family=Playfair+Display:wght@400;700&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Tahoma', sans-serif;
         }
 
         body {
-            font-family: 'Noto Kurdish', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
+            background-color: #0f0f0f;
+            color: #333;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* ============ WEDDING GATE INTRO ============ */
-        #intro-overlay {
+        /* Screen 1: Intro / Wedding Gate */
+        #intro-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%);
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000') no-repeat center center/cover;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
-            z-index: 1000;
+            padding-bottom: 50px;
+            z-index: 100;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .intro-content {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             cursor: pointer;
-            transition: all 1.5s ease;
+            border: 1px solid #d4af37;
         }
 
-        #intro-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(1.1);
-        }
-
-        .gate-container {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            margin-bottom: 30px;
-        }
-
-        .gate {
-            position: absolute;
-            top: 0;
-            width: 50%;
-            height: 100%;
-            transition: all 2s ease;
-        }
-
-        .gate-left {
-            left: 0;
-            background: linear-gradient(135deg, #c9a84c, #e8d5a3, #c9a84c);
-            clip-path: polygon(0 0, 100% 10%, 85% 100%, 0 100%);
-            box-shadow: 5px 0 20px rgba(201, 168, 76, 0.3);
-        }
-
-        .gate-right {
-            right: 0;
-            background: linear-gradient(225deg, #c9a84c, #e8d5a3, #c9a84c);
-            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 90%);
-            box-shadow: -5px 0 20px rgba(201, 168, 76, 0.3);
-        }
-
-        .gate-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #e8d5a3;
-            font-size: 4rem;
-            text-align: center;
-            animation: pulse 2s infinite;
-        }
-
-        #intro-overlay.opening .gate-left {
-            transform: translateX(-150%) rotateY(45deg);
-            opacity: 0;
-        }
-
-        #intro-overlay.opening .gate-right {
-            transform: translateX(150%) rotateY(-45deg);
-            opacity: 0;
-        }
-
-        .intro-text {
-            color: #e8d5a3;
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            margin-top: 20px;
-            animation: slideUp 2s ease;
-        }
-
-        .intro-subtext {
-            color: #a8a8c0;
-            font-size: 1.2rem;
-            text-align: center;
-            margin-top: 10px;
-            animation: fadeIn 3s ease;
-        }
-
-        /* ============ WEDDING INVITATION ============ */
-        .invitation {
-            background: linear-gradient(160deg, #ffffff 0%, #faf8f5 40%, #f5f0e8 100%);
-            max-width: 600px;
-            width: 90%;
-            border-radius: 20px;
-            padding: 50px 30px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            margin: 40px auto;
-            animation: invitationAppear 2s ease;
-        }
-
-        .invitation::before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            border: 2px solid #c9a84c;
-            border-radius: 15px;
-            pointer-events: none;
-        }
-
-        .invitation-header {
-            margin-bottom: 30px;
-        }
-
-        .bismillah {
-            color: #c9a84c;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .flower-icon {
-            font-size: 3rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .names {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #1a1a3e;
-            line-height: 1.3;
-            margin: 30px 0;
-        }
-
-        .names .and {
-            color: #c9a84c;
-            font-size: 2.5rem;
-            display: block;
-            margin: 10px 0;
-        }
-
-        .names .frezad {
-            color: #1a1a3e;
-            text-shadow: 2px 2px 4px rgba(201, 168, 76, 0.3);
-        }
-
-        .names .rayan {
-            color: #1a1a3e;
-            text-shadow: 2px 2px 4px rgba(201, 168, 76, 0.3);
-        }
-
-        .invitation-text {
-            color: #333;
-            font-size: 1.3rem;
-            line-height: 1.8;
-            margin: 20px 0;
-        }
-
-        .date-time {
-            background: linear-gradient(135deg, #faf8f5, #f5f0e8);
-            border: 2px solid #c9a84c;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-
-        .date-time-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0;
-            font-size: 1.2rem;
-            color: #1a1a3e;
-        }
-
-        .date-time-icon {
-            margin-left: 10px;
-            color: #c9a84c;
+        .intro-content h2 {
+            color: #2c2c2c;
             font-size: 1.5rem;
+            margin-bottom: 10px;
         }
 
-        .location {
-            background: linear-gradient(135deg, #1a1a3e, #16213e);
-            color: #e8d5a3;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px 0;
+        .intro-content p {
+            color: #d4af37;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
-        .footer {
-            margin-top: 40px;
-            color: #a8a8c0;
+        .open-btn {
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            padding: 10px 25px;
             font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        /* ============ DECORATIONS ============ */
-        .corner-decoration {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #c9a84c;
-            border-radius: 50%;
+        .open-btn:hover {
+            background-color: #b59328;
         }
 
-        .corner-decoration.top-left {
-            top: -20px;
-            left: -20px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .corner-decoration.top-right {
-            top: -20px;
-            right: -20px;
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .corner-decoration.bottom-left {
-            bottom: -20px;
-            left: -20px;
-            border-right: none;
-            border-top: none;
-        }
-
-        .corner-decoration.bottom-right {
-            bottom: -20px;
-            right: -20px;
-            border-left: none;
-            border-top: none;
-        }
-
-        /* ============ ANIMATIONS ============ */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        /* Screen 2: Main Invitation */
+        #main-invitation {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            background: #fffbf5;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -283,227 +95,121 @@
             to { opacity: 1; }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .header-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
-        @keyframes invitationAppear {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        h1 {
+            color: #2c2c2c;
+            font-size: 1.8rem;
+            margin: 10px 0;
+            letter-spacing: 1px;
         }
 
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+        .names {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
-        .shimmer {
-            background: linear-gradient(90deg, #c9a84c 0%, #e8d5a3 25%, #c9a84c 50%, #e8d5a3 75%, #c9a84c 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: shimmer 3s linear infinite;
+        .verse {
+            font-style: italic;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background: #fdf8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #d4af37;
+            margin-bottom: 25px;
         }
 
-        /* ============ RESPONSIVE ============ */
-        @media (max-width: 768px) {
-            .invitation {
-                padding: 30px 20px;
-                margin: 20px auto;
-            }
-
-            .names {
-                font-size: 2.5rem;
-            }
-
-            .names .and {
-                font-size: 1.8rem;
-            }
-
-            .bismillah {
-                font-size: 2rem;
-            }
-
-            .invitation-text {
-                font-size: 1.1rem;
-            }
-
-            .gate-container {
-                width: 200px;
-                height: 150px;
-            }
-
-            .gate-center {
-                font-size: 3rem;
-            }
-
-            .intro-text {
-                font-size: 2rem;
-            }
+        .section-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 20px 0 10px;
+            border-bottom: 2px solid #f0e6d2;
+            padding-bottom: 5px;
         }
 
-        @media (max-width: 480px) {
-            .names {
-                font-size: 2rem;
-            }
+        .details-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            text-align: right;
+        }
 
-            .names .and {
-                font-size: 1.5rem;
-            }
+        .details-box p {
+            margin: 8px 0;
+            color: #444;
+            font-size: 1rem;
+        }
 
-            .bismillah {
-                font-size: 1.5rem;
-            }
+        .footer-note {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 30px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-    <!-- WEDDING GATE INTRO -->
-    <div id="intro-overlay" onclick="openGate()">
-        <div class="gate-container">
-            <div class="gate gate-left"></div>
-            <div class="gate gate-right"></div>
-            <div class="gate-center">💒</div>
-        </div>
-        <div class="intro-text">هاوسەرگیری</div>
-        <div class="intro-subtext">فەرزاد و ڕەیان</div>
-        <div style="margin-top: 20px; color: #c9a84c; font-size: 1.2rem; animation: pulse 2s infinite;">
-            کلیک بکە بۆ کردنەوەی دەروازەکە
+    <div id="intro-screen">
+        <div class="intro-content" onclick="openInvitation()">
+            <h2>بانگێشتنامەی هاوسەرگیری</h2>
+            <p>فەرزاد & رەیان</p>
+            <button class="open-btn">بۆ کردنەوە کلیک بکە</button>
         </div>
     </div>
 
-    <!-- WEDDING INVITATION -->
-    <div class="invitation">
-        <!-- Decorative corners -->
-        <div class="corner-decoration top-left"></div>
-        <div class="corner-decoration top-right"></div>
-        <div class="corner-decoration bottom-left"></div>
-        <div class="corner-decoration bottom-right"></div>
+    <div id="main-invitation">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="Wedding" class="header-img">
+        
+        <h1>بانگێشتنامە</h1>
+        <div class="names">فەرزاد و رەیان</div>
 
-        <!-- Header -->
-        <div class="invitation-header">
-            <div class="flower-icon">🌸</div>
-            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-            <div class="flower-icon">🌹</div>
+        <div class="verse">
+            «رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَاماً»
         </div>
 
-        <!-- Names -->
-        <div class="names">
-            <span class="frezad">فەرزاد</span>
-            <span class="and shimmer">&</span>
-            <span class="rayan">ڕەیان</span>
+        <div class="details-box">
+            <h3 class="section-title" style="margin-top: 0;">کات و شوێنی ئاهەنگ</h3>
+            <p>📅 <strong>رێکەوت:</strong> پێنجشەممە، ٢٠ی تشرینی دووەمی ٢٠٢٦</p>
+            <p>⏰ <strong>کات:</strong> کاتژمێر ٧:٠٠ی ئێوارە</p>
+            <p>📍 <strong>شوێن:</strong> هۆڵی شازادە - هەولێر</p>
         </div>
 
-        <!-- Invitation text -->
-        <div class="invitation-text">
-            <p>بە خۆشی و شادییەوە</p>
-            <p>بانگێشتنتان دەکەین بۆ ئاهەنگی هاوسەرگیری</p>
-            <p>لەگەڵ ئامادەبوونتاندا شەرەمەندمان دەکەن</p>
+        <div class="details-box">
+            <h3 class="section-title" style="margin-top: 0;">تێبینییەکان</h3>
+            <p>• تکایە کاتژمێر پێش کاتی دیاریکراو ئامادەبن.</p>
+            <p>• شەرەفمەندمان بکەن بە ئامادەبوونیان بە جوانترین پوشاکەوە.</p>
         </div>
 
-        <!-- Date and Time -->
-        <div class="date-time">
-            <div class="date-time-item">
-                <span class="date-time-icon">📅</span>
-                <span>ڕۆژی: هەینی</span>
-            </div>
-            <div class="date-time-item">
-                <span class="date-time-icon">🗓️</span>
-                <span>بەروار: ١٥ی تشرینی دووەمی ٢٠٢٤</span>
-            </div>
-            <div class="date-time-item">
-                <span class="date-time-icon">🕕</span>
-                <span>کاتژمێر: ٦:٠٠ ی ئێوارە</span>
-            </div>
-        </div>
-
-        <!-- Location -->
-        <div class="location">
-            <div style="font-size: 2rem; margin-bottom: 10px;">📍</div>
-            <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px;">شوێنی ئاهەنگەکە</div>
-            <div>هۆڵی شاهانە</div>
-            <div>شاری هەولێر، عێراق</div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>🌸 چاوەڕوانی ئامادەبوونتانین 🌸</p>
-            <p style="margin-top: 15px; font-size: 0.9rem;">
-                بە هیوای بەختی سپی و ژیانێکی پڕ لە خۆشی
-            </p>
+        <div class="footer-note">
+            چاوەڕوانی ئامادەبوونتانین بۆ تەواوکردنی خۆشەویستیمان.<br>
+            <strong>خێزانی فەرزاد و خێزانی رەیان</strong>
         </div>
     </div>
 
     <script>
-        function openGate() {
-            const overlay = document.getElementById('intro-overlay');
-            overlay.classList.add('opening');
+        function openInvitation() {
+            const introScreen = document.getElementById('intro-screen');
+            const mainInvitation = document.getElementById('main-invitation');
             
-            // Play gate opening animation
+            introScreen.style.opacity = '0';
             setTimeout(() => {
-                overlay.classList.add('hidden');
-                
-                // Remove overlay after animation
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 1500);
-            }, 2000);
+                introScreen.style.display = 'none';
+                mainInvitation.style.display = 'block';
+            }, 1000);
         }
-
-        // Optional: Auto-open after 5 seconds
-        setTimeout(() => {
-            const overlay = document.getElementById('intro-overlay');
-            if (overlay.style.display !== 'none') {
-                openGate();
-            }
-        }, 5000);
-
-        // Add floating hearts animation
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.style.position = 'fixed';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.bottom = '-20px';
-            heart.style.pointerEvents = 'none';
-            heart.style.animation = `float ${Math.random() * 5 + 3}s linear forwards`;
-            heart.style.zIndex = '999';
-            
-            document.body.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 8000);
-        }
-
-        // Create floating hearts periodically
-        setInterval(createFloatingHeart, 2000);
-
-        // Add float animation for hearts
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                from {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateY(-100vh);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 
 </body>
