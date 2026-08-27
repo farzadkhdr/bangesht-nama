@@ -1,200 +1,266 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشتنامەی هاوسەرگیری - فەرزاد و رەیان</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tahoma', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بانگێشتنامەی هاوسەرگیری</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background-color: #111;
-            color: #333;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    body {
+      font-family: 'Tashkeel', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f0f11;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        #gate-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            overflow: hidden;
-            transition: opacity 0.8s ease;
-        }
+    /* کانتێنەری سەرەکی مۆبایل */
+    .card-container {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: #ffffff;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      overflow-y: auto;
+    }
 
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    /* بەشی ڤیدیۆکان (تێکەڵبوون بۆ سەرەتا) */
+    .video-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
+      overflow: hidden;
+    }
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
 
-        #main-invitation {
-            display: none;
-            width: 100%;
-            max-width: 480px;
-            background: #fffbf5;
-            min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            padding: 20px;
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
-            z-index: 50;
-        }
+    .bg-video.active {
+      opacity: 1;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+    /* داپۆشەری دەستپێکردن بۆ ڕێگەدان بە لێدانی دەنگ (Autoplay Policy) */
+    .start-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(3px);
+      transition: opacity 0.5s ease;
+    }
 
-        .header-img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #f0e6d2;
-        }
+    .start-btn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #d4af37, #f3e5ab);
+      color: #111;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      cursor: pointer;
+      margin-top: 15px;
+    }
 
-        h1 {
-            color: #2c2c2c;
-            font-size: 1.8rem;
-            margin: 5px 0;
-        }
+    /* بەشی ناوەڕۆکی کارتەکە */
+    .invitation-content {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1.2s ease;
+      padding: 30px 20px;
+      background: #fff;
+      text-align: center;
+    }
 
-        .names {
-            font-size: 1.5rem;
-            color: #d4af37;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    .invitation-content.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .verse {
-            font-style: italic;
-            color: #444;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            background: #fdf8f0;
-            padding: 12px;
-            border-radius: 8px;
-            border-right: 4px solid #d4af37;
-            margin-bottom: 20px;
-        }
+    .header-title {
+      font-size: 2rem;
+      color: #8b6b23;
+      margin-bottom: 10px;
+    }
 
-        .section-title {
-            font-size: 1.1rem;
-            color: #333;
-            margin: 0 0 10px;
-            border-bottom: 2px solid #f0e6d2;
-            padding-bottom: 5px;
-            text-align: right;
-        }
+    .names {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin: 20px 0;
+      line-height: 1.4;
+    }
 
-        .details-box {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            text-align: right;
-            border: 1px solid #f9f3e8;
-        }
+    .names span {
+      display: block;
+      color: #c5a059;
+      font-size: 1.5rem;
+    }
 
-        .details-box p {
-            margin: 8px 0;
-            color: #444;
-            font-size: 0.95rem;
-        }
+    .poem-box {
+      background: #fdfbf7;
+      border-right: 3px solid #c5a059;
+      border-left: 3px solid #c5a059;
+      padding: 15px;
+      margin: 20px 0;
+      font-style: italic;
+      color: #555;
+      line-height: 1.8;
+    }
 
-        .footer-note {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 20px;
-            line-height: 1.5;
-            background: #fdf8f0;
-            padding: 10px;
-            border-radius: 8px;
-        }
-    </style>
+    .details-card {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .details-item {
+      margin: 12px 0;
+      font-size: 1.05rem;
+    }
+
+    .details-item strong {
+      color: #8b6b23;
+    }
+
+    /* ڤیدیۆی سێیەم کە لەخوارەوە دیار دەبێت */
+    .bottom-video-container {
+      margin-top: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .bottom-video-container video {
+      width: 100%;
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
-    <div id="gate-screen">
-        <div class="video-container">
-            <video id="weddingVideo" autoplay muted playsinline onended="openInvitation()">
-                <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/From%20Klickpin.com-%20Red%20Lip%20Makeup%20Looks%2048%20Ideas%20to%20Copy-pin-id-1111826226790236382.mov" type="video/mp4">
-                ڤیدیۆکە پشتگیری ناکرێت لە وێبگەڕەکەتدا.
-            </video>
-        </div>
+  <div class="card-container">
+    
+    <audio id="bgMusic" loop preload="auto">
+      <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/6085736734931925349.mp4" type="audio/mp4">
+    </audio>
+
+    <div class="video-hero">
+      
+      <div class="start-overlay" id="startOverlay" onclick="startExperience()">
+        <h2>بانگێشتنامەی هاوسەرگیری</h2>
+        <button class="start-btn">کرتە بکە بۆ کردنەوە ✉️</button>
+      </div>
+
+      <video id="video1" class="bg-video active" playsinline muted>
+        <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/From%20Klickpin.com-%20Red%20Lip%20Makeup%20Looks%2048%20Ideas%20to%20Copy-pin-id-1111826226790236382.mov" type="video/mp4">
+      </video>
+
+      <video id="video2" class="bg-video" playsinline muted>
+        <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/copy_3DD499EB-9C9E-45CF-B208-3433316B8713.mov" type="video/mp4">
+      </video>
+
     </div>
 
-    <div id="main-invitation">
-        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000" alt="Wedding Palace" class="header-img">
-        
-        <h1>بانگێشتنامە</h1>
-        <div class="names">فەرزاد و رەیان</div>
+    <div class="invitation-content" id="invitationContent">
+      <h3 class="header-title">بۆنەی هاوسەرگیری</h3>
+      
+      <div class="names">
+        ئارام
+        <span>&</span>
+        شنیار
+      </div>
 
-        <div class="verse">
-            «رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَاماً»
-        </div>
+      <div class="poem-box">
+        "بە ئامادەبوونتان خۆشی و شادییەکانمان دەڕازێننەوە و تەواوی دەکەن"
+      </div>
 
-        <div class="details-box">
-            <h3 class="section-title">کات و شوێنی ئاهەنگ</h3>
-            <p>📅 <strong>رێکەوت:</strong> پێنجشەممە، ٢٠ی تشرینی دووەمی ٢٠٢٦</p>
-            <p>⏰ <strong>کات:</strong> کاتژمێر ٧:٠٠ی ئێوارە</p>
-            <p>📍 <strong>شوێن:</strong> هۆڵی شازادە - هەولێر</p>
+      <div class="details-card">
+        <div class="details-item">
+          <strong>کات:</strong> ڕۆژی پێنجشەممە - ۲۰ی تشرینی دووەم
         </div>
+        <div class="details-item">
+          <strong>شوێن:</strong> هۆڵی شارزادە - هەولێر
+        </div>
+      </div>
 
-        <div class="details-box">
-            <h3 class="section-title">تێبینییەکان</h3>
-            <p>• تکایە کاتژمێرێک پێش کاتی دیاریکراو ئامادەبن.</p>
-            <p>• شەرەفمەندمان بکەن بە ئامادەبوونیان بە جوانترین پوشاکەوە.</p>
-        </div>
-
-        <div class="footer-note">
-            چاوەڕوانی ئامادەبوونتانین بۆ تەواوکردنی خۆشەویستیمان.<br>
-            <strong>خێزانی فەرزاد و خێزانی رەیان</strong>
-        </div>
+      <div class="bottom-video-container">
+        <video id="video3" autoplay loop muted playsinline>
+          <source src="https://raw.githubusercontent.com/farzadkhdr/bangesht-nama/main/copy_BF880E4B-9740-4728-A91C-55EE3ECB1ABC.mov" type="video/mp4">
+        </video>
+      </div>
     </div>
 
-    <script>
-        function openInvitation() {
-            const gateScreen = document.getElementById('gate-screen');
-            const mainInvitation = document.getElementById('main-invitation');
+  </div>
 
-            if (gateScreen.style.display === 'none') return;
+  <script>
+    const startOverlay = document.getElementById('startOverlay');
+    const bgMusic = document.getElementById('bgMusic');
+    const video1 = document.getElementById('video1');
+    const video2 = document.getElementById('video2');
+    const video3 = document.getElementById('video3');
+    const invitationContent = document.getElementById('invitationContent');
 
-            gateScreen.style.opacity = '0';
-            setTimeout(() => {
-                gateScreen.style.display = 'none';
-                mainInvitation.style.display = 'block';
-            }, 500);
-        }
-    </script>
+    function startExperience() {
+      // 1. شاردنەوەی سەرپۆشی دەستپێکردن
+      startOverlay.style.opacity = '0';
+      setTimeout(() => startOverlay.style.display = 'none', 500);
+
+      // 2. لێدانی دەنگ
+      bgMusic.play().catch(err => console.log("Audio play error:", err));
+
+      // 3. دەستپێکردنی ڤیدیۆی یەکەم
+      video1.play();
+    }
+
+    // کاتێک ڤیدیۆی یەکەم (دەرگا) تەواو دەبێت
+    video1.onended = function() {
+      video1.classList.remove('active');
+      video2.classList.add('active');
+      video2.play();
+    };
+
+    // کاتێک ڤیدیۆی دووەم (ناو هۆڵەکە) تەواو دەبێت
+    video2.onended = function() {
+      // هێنانە خوارەوەی لاپەڕەکە و نیشاندانی دەقەکە
+      invitationContent.classList.add('show');
+      
+      // سکڕۆڵکردن بەرەو ناوەڕۆکی بانگێشتنامەکە بە نەرمی
+      invitationContent.scrollIntoView({ behavior: 'smooth' });
+
+      // کارپێکردنی ڤیدیۆی کۆتایی
+      video3.play();
+    };
+  </script>
 
 </body>
 </html>
